@@ -1,0 +1,30 @@
+{
+  "local": {
+    "username": "mariam",
+    "password": 12345,
+    "database": "bookstoredb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "development": {
+    "username": "bookstore_user",
+    "password": "bookstore_password",
+    "database": "bookstoredb",
+    "host": "db",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "bookstoredb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "bookstoredb",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

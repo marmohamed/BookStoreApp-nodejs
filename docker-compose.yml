@@ -1,0 +1,53 @@
+version: "3"
+services:
+  redis:
+    container_name: redis
+    image: redis
+    networks:
+      - webnet
+    # ports:
+    #   - "6379:6379"
+    command: redis-server
+  db:
+    image: postgres
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: bookstore_password
+      POSTGRES_USER: bookstore_user
+      POSTGRES_DB: bookstoredb
+    restart: always
+    volumes:
+      - ./database-db-create.sql:/docker-entrypoint-initdb.d/database-db-create.sql
+    # ports:
+    #   - "5432:5432"
+  api:
+    # image: api
+    container_name: api
+    build: ./
+    ports:
+      - "8000:8000"
+    networks:
+      - webnet
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: bookstore_password
+      DB_USER: bookstore_user
+      DB_NAME: bookstoredb
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SERVER_PORT: 8000
+      SERVER_HOST: 0.0.0.0
+    # restart: on-failure
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        ./dbsetup.sh
+        npm run swagger-autogen
+        npm run dev
+networks:
+  webnet:
