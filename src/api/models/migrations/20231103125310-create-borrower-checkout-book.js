@@ -9,12 +9,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      
       createdAt: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      returnedAt: {
         allowNull: true,
         type: Sequelize.DATE
       },

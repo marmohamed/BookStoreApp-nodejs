@@ -24,6 +24,12 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
+      description: {
+        type: Sequelize.TEXT
+      },
+      daysForBorrowing: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: true,
         type: Sequelize.DATE
@@ -45,6 +51,15 @@ module.exports = {
         type: Sequelize.DataTypes.INTEGER,
         references: {
           model: 'Shelves',
+          key: 'id'
+        },
+        allowNull: true,
+        onDelete: 'SET NULL'
+      },
+      genreId: {
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: 'Genres',
           key: 'id'
         },
         allowNull: true,
