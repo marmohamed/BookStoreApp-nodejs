@@ -30,6 +30,9 @@ const sequelize = require('../../../lib/db/index.js');
         notEmpty: true,
       },
     },
+    titleSearch: {
+      type: DataTypes.TEXT,
+    },
     ispn: {
       type: DataTypes.STRING,
       unique: true,
@@ -51,6 +54,22 @@ const sequelize = require('../../../lib/db/index.js');
     sequelize,
     modelName: 'Book'
   });
+
+  Book.beforeCreate(async (book, options) => {
+    book.titleSearch = generateTitleSearch(book.title);
+  });
+  Book.beforeUpdate(async (book, options) => {
+    book.titleSearch = generateTitleSearch(book.title);
+  });
+  Book.beforeBulkCreate((books, options) => {
+    for (const book of books) {
+      book.titleSearch = generateTitleSearch(book.title);
+    }
+  });
+
+function generateTitleSearch(title) { 
+  return Sequelize.fn('to_tsvector', title); 
+} 
 //   return Book;
 // };
 

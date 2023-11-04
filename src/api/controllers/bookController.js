@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const { bookCreationSchema } = require('../validators/books.js');
+const { bookCreationSchema, bookSearchSchema } = require('../validators/books.js');
+const Sequelize = require('sequelize');
 
 const Book = require('../models/models/book.js');
 const { ValidationError } = require("yup");
@@ -17,7 +18,7 @@ const index = asyncHandler(async (req, res, next) => {
     } 
     var offset = (parseInt(page) - 1) * parseInt(size);
     const bookList = await Book.findAll({offset: offset, limit: parseInt(size)});
-    res.status(201).json(bookList)
+    res.status(200).json(bookList)
     return;
   }
   catch (err) { 
@@ -94,5 +95,34 @@ const create = asyncHandler(async (req, res, next) => {
   } 
 });
 
+const searchByTitle = asyncHandler(async (req, res, next) => {
+  try {
 
-module.exports = {index, getOne, create}
+    await bookSearchSchema.validate(req.query, { abortEarly: false, stripUnknown: true });
+
+    console.log("Searching books...");
+
+    const bookList = await Book.findAll({ where: {
+      titleSearch: {
+        [Sequelize.Op.match]: Sequelize.fn('to_tsquery', req.query.title)
+      }
+    }
+    });
+    console.log("found: " + bookList);
+    res.status(200).json(bookList)
+    return;
+  } 
+  catch (err) { 
+    if ( err instanceof ValidationError ) {
+      console.log("An error happened during validation:" + err.message);
+      res.status(400)
+      .json({ message: "Validation failed", error: err.errors }); 
+      return;
+    }
+    console.log("An error happened: " + err.message);
+    res.sendStatus(500); 
+  } 
+});
+
+
+module.exports = {index, getOne, create, searchByTitle}

@@ -7,15 +7,14 @@ const {
     index,
     getOne,
     create,
-    // update,
-    // remove,
-    // search
+    searchByTitle
 } =  require("../controllers/bookController.js");
 
 
 router.get("/books", index);
 router.get("/book/:id", getOne);
 router.post("/book", rateLimitMiddleware, create);
+router.get("/books/search", searchByTitle);
 // router.put("/book/:id", update);
 // router.delete("/book/:id", remove);
 // router.search("/book", search);

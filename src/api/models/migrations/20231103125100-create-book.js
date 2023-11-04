@@ -12,6 +12,9 @@ module.exports = {
       title: {
         type: Sequelize.STRING
       },
+      titleSearch: {
+        type: Sequelize.TSVECTOR
+      },
       ispn: {
         type: Sequelize.STRING,
         allowNull: false,

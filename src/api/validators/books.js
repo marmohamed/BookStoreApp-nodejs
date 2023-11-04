@@ -12,15 +12,8 @@ const bookCreationSchema = yup.object().shape({
   });
 
 
-const bookUpdateSchema = yup.object().shape({
-    title: yup.string(),
-    ispn: yup.string(),
-    quantity: yup.number(),
-    authorId: yup.number().positive(),
-    shelfId: yup.number().positive(),
-    updatedOn: yup.date().default(function () {
-      return new Date();
-    }),
+const bookSearchSchema = yup.object().shape({
+    title: yup.string().required()
   });
 
-module.exports = {bookCreationSchema, bookUpdateSchema}
+module.exports = {bookCreationSchema, bookSearchSchema}
