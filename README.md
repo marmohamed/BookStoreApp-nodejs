@@ -12,7 +12,7 @@
 
 
 ## Features implemented:
-1. Database objects for the books, authors, borrowers, shelves, borrowing process in `src/api/models`
+1. Database objects for the books, authors, borrowers, shelves, genres, borrowing process in `src/api/models`
 1. List/Create/getOne/SearchByTitle for books
 1. for searching, a vector index is used for the title column
 1. ORM for security
